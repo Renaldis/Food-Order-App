@@ -1,7 +1,21 @@
+import { useContext } from "react";
+
 import { currencyFormatter } from "../util/formatting.js";
 import Button from "./UI/Button.jsx";
+import CartContext from "../store/CartContext.jsx";
 
 export default function MealItem({ meal }) {
+  const cartCtx = useContext(CartContext);
+
+  function handleAddMealToCart() {
+    try {
+      cartCtx.addItem(meal);
+    } catch (error) {
+      console.error("Failed to add item to cart:", error);
+      alert("Failed to add item to cart. Please try again.");
+    }
+  }
+
   return (
     <>
       <li className="meal-item">
@@ -15,7 +29,7 @@ export default function MealItem({ meal }) {
             </p>
           </div>
           <p className="meal-item-actions">
-            <Button>Add to Cart</Button>
+            <Button onClick={handleAddMealToCart}>Add to Cart</Button>
           </p>
         </article>
       </li>
